@@ -28,4 +28,4 @@ Jogo educativo para navegador (computador, tablet ou celular), para crianças do
 
 ## Feito por:
 
-- Otavio Henrique da Silva.
+### Otavio Henrique da Silva.
