@@ -26,6 +26,6 @@ Jogo educativo para navegador (computador, tablet ou celular), para crianças do
 - Testado de ponta a ponta no Chromium (Chrome/Edge), em tela de computador e de celular simulada.
 - **Ainda não testado** em Firefox, Safari e aparelhos reais; a voz depende do aparelho.
 
-##Feito por:
+## Feito por:
 
 - Otavio Henrique da Silva.
