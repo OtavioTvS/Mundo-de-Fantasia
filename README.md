@@ -25,3 +25,7 @@ Jogo educativo para navegador (computador, tablet ou celular), para crianças do
 - Feito com **HTML, CSS e JavaScript**, sem instalar nada: basta abrir esse link no navegador: Link Aqui em breve
 - Testado de ponta a ponta no Chromium (Chrome/Edge), em tela de computador e de celular simulada.
 - **Ainda não testado** em Firefox, Safari e aparelhos reais; a voz depende do aparelho.
+
+##Feito por:
+
+- Otavio Henrique da Silva.
