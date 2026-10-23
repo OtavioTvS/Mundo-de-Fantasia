@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8E6CF2">
+  <title>Mundo de Fantasia — jogo educativo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Botão de som (liga/desliga a voz do Julio). Some sozinho se o aparelho não tiver voz. -->
+  <button class="btn-som" id="btn-som" type="button" aria-pressed="true" aria-label="Desligar a voz do Julio"></button>
+
+  <!-- ============ 1. TELA INICIAL ============ -->
+  <section class="tela cenario-inicio ativa" id="tela-inicio">
+    <div class="centro">
+      <h1 class="titulo-jogo">Mundo de<br>Fantasia</h1>
+      <p class="subtitulo">Vamos brincar e aprender com o Julio!</p>
+      <div class="julio-slot grande"></div>
+      <div class="balao"><p class="balao-texto">Oi! Eu sou o Julio. Toque em Jogar para começar a aventura!</p></div>
+      <div class="botoes">
+        <button class="btn btn-grande btn-verde" id="btn-jogar" type="button" disabled>Jogar</button>
+        <button class="btn btn-secundario" id="btn-ranking-inicio" type="button">🏆 Ranking</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. DADOS DO ALUNO (opcionais) ============ -->
+  <section class="tela cenario-inicio" id="tela-dados" hidden>
+    <div class="centro">
+      <div class="julio-slot medio"></div>
+      <div class="balao"><p class="balao-texto"></p></div>
+      <form class="cartao" id="form-dados" autocomplete="off">
+        <h2>Quem vai jogar?</h2>
+        <p class="nota">Tudo aqui é opcional e fica salvo só neste aparelho.</p>
+        <label for="d-nome">Nome</label>
+        <input id="d-nome" name="nome" type="text" maxlength="30" placeholder="Digite o nome">
+        <label for="d-ano">Ano escolar</label>
+        <select id="d-ano" name="ano">
+          <option value="">Escolha o ano</option>
+          <option>1º ano</option>
+          <option>2º ano</option>
+          <option>3º ano</option>
+          <option>4º ano</option>
+        </select>
+        <label for="d-escola">Escola</label>
+        <input id="d-escola" name="escola" type="text" maxlength="50" placeholder="Nome da escola">
+        <label for="d-prof">Professor(a)</label>
+        <input id="d-prof" name="professor" type="text" maxlength="40" placeholder="Nome do(a) professor(a)">
+        <div class="botoes">
+          <button class="btn btn-grande btn-verde" type="submit">Continuar</button>
+          <button class="btn btn-secundario" id="btn-pular" type="button">Pular</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ 3. ESCOLHA DA DIFICULDADE ============ -->
+  <section class="tela cenario-inicio" id="tela-nivel" hidden>
+    <div class="centro">
+      <div class="julio-slot medio"></div>
+      <div class="balao"><p class="balao-texto"></p></div>
+      <h2 class="titulo-secao">Escolha o seu desafio</h2>
+      <div class="niveis" id="nivel-lista"></div>
+      <button class="btn btn-secundario" id="btn-voltar-nivel" type="button">← Voltar</button>
+    </div>
+  </section>
+
+  <!-- ============ CARREGANDO ============ -->
+  <section class="tela cenario-inicio" id="tela-carregando" hidden>
+    <div class="centro">
+      <div class="julio-slot medio"></div>
+      <div class="balao"><p class="balao-texto"></p></div>
+      <div class="carregando" aria-hidden="true"><span></span></div>
+    </div>
+  </section>
+
+  <!-- ============ 4 e 5. PERGUNTAS E FASE SECRETA ============ -->
+  <section class="tela cenario-facil" id="tela-jogo" hidden>
+    <header class="barra">
+      <button class="btn-mini" id="btn-sair-jogo" type="button" aria-label="Sair para o início">←</button>
+      <span class="chip-nivel" id="chip-nivel">Fácil</span>
+      <ol class="progresso" id="progresso" aria-label="Progresso"></ol>
+      <span class="pontos" id="pontos"><b id="pontos-num">0</b> pontos</span>
+    </header>
+
+    <main class="palco">
+      <aside class="lado-julio">
+        <div class="julio-slot medio"></div>
+        <div class="balao" aria-live="polite"><p class="balao-texto"></p></div>
+      </aside>
+
+      <div class="cartao-pergunta" id="cartao">
+        <div class="cabeca-cartao">
+          <h2 id="p-texto"></h2>
+          <button class="btn-ouvir" id="btn-ouvir" type="button">🔉 Ouvir de novo</button>
+        </div>
+        <div class="p-visual" id="p-visual"></div>
+        <div class="p-extra" id="p-extra"></div>
+        <div class="area-resposta" id="area-resposta"></div>
+        <div class="acoes" id="acoes">
+          <button class="btn btn-secundario" id="btn-pausa" type="button" hidden>⏸ Parar o movimento</button>
+          <button class="btn btn-grande btn-verde" id="btn-proxima" type="button" hidden>Próxima pergunta</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Elemento escondido que leva à fase secreta: um vagalume dourado quase transparente. -->
+    <button class="segredo" id="segredo" type="button" hidden aria-label="Um vagalume dourado escondido! Toque para seguir ele."></button>
+  </section>
+
+  <!-- ============ 6. FIM DE JOGO ============ -->
+  <section class="tela cenario-ranking" id="tela-fim" hidden>
+    <div class="centro">
+      <div class="julio-slot medio"></div>
+      <div class="balao" aria-live="polite"><p class="balao-texto"></p></div>
+      <div class="cartao">
+        <h2>Sua aventura terminou!</h2>
+        <div class="estrelas" id="fim-estrelas"></div>
+        <dl class="resumo">
+          <div><dt>Pontos</dt><dd id="fim-pontos">0</dd></div>
+          <div><dt>Acertos de primeira</dt><dd id="fim-acertos">0</dd></div>
+          <div><dt>Tentativas extras</dt><dd id="fim-erros">0</dd></div>
+          <div><dt>Passagem secreta</dt><dd id="fim-secreta"></dd></div>
+        </dl>
+
+        <form class="registro" id="form-registro" autocomplete="off" hidden>
+          <h3>Quer aparecer no ranking?</h3>
+          <p class="nota">Tudo é opcional e fica salvo só neste aparelho.</p>
+          <label for="r-nome">Nome</label>
+          <input id="r-nome" type="text" maxlength="30" placeholder="Digite o nome">
+          <label for="r-ano">Ano escolar</label>
+          <select id="r-ano">
+            <option value="">Escolha o ano</option>
+            <option>1º ano</option><option>2º ano</option><option>3º ano</option><option>4º ano</option>
+          </select>
+          <label for="r-escola">Escola</label>
+          <input id="r-escola" type="text" maxlength="50" placeholder="Nome da escola">
+          <label for="r-prof">Professor(a)</label>
+          <input id="r-prof" type="text" maxlength="40" placeholder="Nome do(a) professor(a)">
+          <button class="btn btn-azul" type="submit">Salvar no ranking</button>
+        </form>
+        <p class="salvo" id="fim-salvo" hidden>Pronto! Seu nome já está no ranking.</p>
+
+        <div class="botoes">
+          <button class="btn btn-grande btn-verde" id="btn-jogar-de-novo" type="button">Jogar de novo</button>
+          <button class="btn btn-secundario" id="btn-ver-ranking" type="button">🏆 Ver ranking</button>
+          <button class="btn btn-secundario" id="btn-inicio-fim" type="button">Início</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RANKING LOCAL ============ -->
+  <section class="tela cenario-ranking" id="tela-ranking" hidden>
+    <div class="centro">
+      <div class="cartao largo">
+        <h2>🏆 Ranking deste aparelho</h2>
+        <div class="abas" role="tablist" id="rank-abas">
+          <button type="button" role="tab" data-filtro="" aria-selected="true">Todos</button>
+          <button type="button" role="tab" data-filtro="facil" aria-selected="false">Fácil</button>
+          <button type="button" role="tab" data-filtro="medio" aria-selected="false">Médio</button>
+          <button type="button" role="tab" data-filtro="dificil" aria-selected="false">Difícil</button>
+        </div>
+        <div class="tabela-rolagem">
+          <table class="tabela">
+            <thead><tr><th>#</th><th>Nome</th><th>Ano</th><th>Nível</th><th>Pontos</th><th>Acertos</th></tr></thead>
+            <tbody id="rank-corpo"></tbody>
+          </table>
+        </div>
+        <p class="nota" id="rank-vazio" hidden>Ainda não tem ninguém aqui. Que tal ser o primeiro?</p>
+        <div class="botoes">
+          <button class="btn btn-grande btn-verde" id="btn-voltar-ranking" type="button">← Voltar</button>
+          <button class="btn btn-secundario" id="btn-limpar-ranking" type="button">Apagar ranking</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- data/questions.js é só o "plano B" para abrir o jogo direto do computador (file://). -->
+  <script src="data/questions.js"></script>
+  <script src="js/voz.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
